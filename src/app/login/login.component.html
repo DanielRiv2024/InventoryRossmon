@@ -1,0 +1,22 @@
+<body>
+    <div class="flex flex-1 h-[100vh] items-center justify-center">
+        <div class=" flex flex-col bg-slate-500 h-[400px] w-[400px] justify-center items-center rounded-[25px]">
+            <h1 class="text-[35px] font-bold text-white">Ingresar</h1>
+            <p class="text-[15px]\ mb-[25px] text-white">Inventory Rossmon</p>
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                <div class="flex flex-col gap-3">
+                    <input
+                        class="shadow appearance-none border rounded-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        type="text" formControlName="username" name="username" placeholder="username">
+                    <input
+                        class="shadow appearance-none border rounded-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        type="password" formControlName="password" name="password" placeholder="password">
+                    <div
+                        class=" flex items-center justify-center bg-black rounded-full p-2 text-white text-[15px] font-bold">
+                        <button type="submit">Confirmar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>

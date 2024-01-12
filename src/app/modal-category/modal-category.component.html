@@ -1,0 +1,31 @@
+<div class="modal-content bg-slate-100">
+    <div class="modal-header">
+        <div class="flex w-[100%] items-center justify-center font-bold">
+            <h5 class="modal-title text-[23px]">Formulario Categorías</h5>
+        </div>
+
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+     
+            <div class="mb-4">
+                <label class="block text-left font-bold text-slate-600">Nombre:</label>
+                <input placeholder="Nombre de la categoría" formControlName="name" type="text"
+                    class="py-2 px-6 text-black rounded-md border border-blue-500 w-full">
+            </div>
+            <div class="mb-4">
+                <label class="block text-left font-bold text-slate-600">Descripción:</label>
+                <textarea placeholder="Descripción de la categoría" formControlName="description"
+                    class="py-2 px-6 text-black rounded-md border border-blue-500 w-full"></textarea>
+            </div>
+
+            <div class="flex w-[100%] items-center justify-center font-bold">
+                <button type="submit"
+                    class="py-2 px-6 text-white rounded-md border border-blue-500 bg-slate-600">Guardar Categoría</button>
+            </div>
+        </form>
+    </div>
+</div>

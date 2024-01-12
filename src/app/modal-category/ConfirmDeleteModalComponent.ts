@@ -1,0 +1,22 @@
+import { Component, Input } from '@angular/core';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+
+@Component({
+  selector: 'app-confirm-delete-modal',
+  templateUrl: './confirm-delete-modal.component.html',
+})
+export class ConfirmDeleteModalComponentC {
+  @Input() category: string | undefined;
+
+  constructor(public activeModal: NgbActiveModal) {}
+
+  confirmDelete(): void {
+    // Confirma la eliminación
+    this.activeModal.close('confirm');
+  }
+
+  cancelDelete(): void {
+    // Cancela la eliminación
+    this.activeModal.close('cancel');
+  }
+}
