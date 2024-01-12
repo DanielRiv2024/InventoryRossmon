@@ -3,7 +3,7 @@ import { CategoriesService } from './categoriesService';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalCategoryComponent } from '../modal-category/modal-category.component';
 import { ConfirmDeleteModalComponentC } from '../modal-category/ConfirmDeleteModalComponent';
-
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-categories',
@@ -13,13 +13,21 @@ export class CategoriesComponent implements OnInit {
   categories: any[] = []; 
   currentPage: number = 1;
   itemsPerPage: number = 30;
-
-  constructor(private categoryService: CategoriesService ,private modalService: NgbModal) { }
+  localStorage = window.localStorage;
+  nameFromLocalStorage: string | null = '';
+  constructor(private categoryService: CategoriesService ,private modalService: NgbModal, private router: Router) { }
 
   ngOnInit(): void {
     this.loadCategories(); 
+    this.nameFromLocalStorage = this.localStorage.getItem('name');
   }
 
+  logout(): void {
+
+    window.localStorage.removeItem('token');
+
+    this.router.navigate(['/login']);
+  }
   get totalPages(): number {
     return Math.ceil(this.categories.length / this.itemsPerPage);
   }

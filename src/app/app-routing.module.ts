@@ -5,10 +5,10 @@ import { ProductComponent } from './product/product.component';
 import { CategoriesComponent } from './categories/categories.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' }, // Redirige a la ruta de login
-  { path: 'login', component: LoginComponent },           // Ruta de login
-  { path: 'products', component: ProductComponent },      // Ruta de productos
-  { path: 'category', component: CategoriesComponent },     // Ruta de categorías
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent },           
+  { path: 'products', component: ProductComponent },      
+  { path: 'category', component: CategoriesComponent },     
 ];
 
 @NgModule({

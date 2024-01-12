@@ -27,12 +27,10 @@ export class TokenInterceptor implements HttpInterceptor {
 
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
-        // Si el error es debido a no autenticación (401) o acceso prohibido (403)
         if (error.status === 401 || error.status === 403) {
-          //localStorage.removeItem('token');
-          //this.router.navigate(['/login']);
+          localStorage.removeItem('token');
+          this.router.navigate(['/login']);
         }
-        // Continúa con el manejo del error
         return throwError(error);
       })
     );

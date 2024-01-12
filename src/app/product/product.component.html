@@ -1,7 +1,7 @@
 
 <div class="flex w-[100%] h-[100vh] flex-col items-center ">
     <div class="w-[100%]  h-[40px] bg-slate-600 flex justify-between items-center text-white font-bold px-6">
-        <p>{{ localStorage.getItem('name') }}</p>
+        <p>{{ nameFromLocalStorage }}</p>
         <button (click)="logout()">Salir</button>
     </div>
     <div class="flex w-[80vh] justify-between m-10 items-center">
@@ -18,7 +18,7 @@
 
     </div>
 
-    <div class="bg-slate-100 p-6 rounded-md w-[1000px]">
+    <div class="bg-slate-100 p-6 rounded-md ">
         <table *ngIf="displayedProducts.length > 0">
             <thead>
                 <tr>
@@ -27,8 +27,7 @@
                     <th class="p-3">Precio</th>
                     <th class="p-3">Cantidad</th>
                     <th class="p-3">Categoría</th>
-                    <th class="p-3">Creado</th>
-                    <th class="p-3">Actualizado</th>
+
                     <th class="p-3"></th>
                 </tr>
             </thead>
@@ -39,9 +38,7 @@
                         <td class="p-3">{{ product.name }}</td>
                         <td class="p-3">{{ product.price }}</td>
                         <td class="p-3">{{ product.amount }}</td>
-                        <td class="p-3">{{ product.category }}</td>
-                        <td class="p-3">{{ product.createdBy }}</td>
-                        <td class="p-3">{{ product.updateBy }}</td>
+                        <td class="p-3">{{ product.categoryName  }}</td>
                         <td class="p-3 flex gap-3">
                             <button class="bg-slate-600 px-5 rounded-md text-white font-bold"
                                 (click)="editProduct(product)">Editar</button>
@@ -66,7 +63,7 @@
                 <button *ngIf="currentPage < totalPages" (click)="navigateToPage(currentPage + 1)">Siguiente</button>
             </div>
         </div>
-        <div *ngIf="displayedProducts.length === 0" class="text-center text-gray-600 mt-4">
+        <div *ngIf="displayedProducts.length === 0" class="text-center text-gray-600 mt-4 w-[1000px]">
             No hay productos disponibles.
         </div>
     </div>

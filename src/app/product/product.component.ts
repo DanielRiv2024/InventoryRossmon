@@ -1,10 +1,10 @@
-// product.component.ts
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Component, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
 import { ProductService } from './ProductService';
+import { CategoriesService } from '../categories/categoriesService';
 import { ModalProductComponent } from '../modal-product/modal-product.component';
 import { ConfirmDeleteModalComponent } from '../modal-product/ConfirmDeleteModalComponent';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-product',
@@ -12,33 +12,78 @@ import { Router } from '@angular/router';
 })
 export class ProductComponent implements OnInit {
   products: any[] = [];
+  transformedProducts: any[] = [];
   currentPage: number = 1;
   itemsPerPage: number = 5;
-  localStorage = window.localStorage;
+  categorias: any[] = [];
   nameFromLocalStorage: string | null = '';
-  constructor(private productService: ProductService, private modalService: NgbModal, private router: Router) { }
+
+  constructor(
+    private productService: ProductService, 
+    private categoriesService: CategoriesService, 
+    private modalService: NgbModal, 
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
+    this.nameFromLocalStorage = localStorage.getItem('name');
+    this.loadCategories();
     this.loadProducts();
-    this.nameFromLocalStorage = this.localStorage.getItem('name');
   }
 
-  logout(): void {
-    // Eliminar el token del localStorage
-    window.localStorage.removeItem('token');
+  loadCategories(): void {
+    this.categoriesService.getAllCategories().subscribe({
+      next: (data) => {
+        this.categorias = data;
+        this.transformProducts(); 
+      },
+      error: (error) => {
+        console.error('Error al obtener categorías', error);
+      }
+    });
+  }
 
-    // Redireccionar a la página de inicio de sesión
-    this.router.navigate(['/login']);
+  loadProducts(): void {
+    this.productService.getAllProducts().subscribe({
+      next: (data) => {
+        this.products = data;
+        this.transformProducts();
+      },
+      error: (error) => {
+        console.error('Error al obtener productos', error);
+      }
+    });
+  }
+
+  private getCategoryName(categoryId: number): string {
+    const category = this.categorias.find(cat => cat.id === categoryId);
+    return category ? category.name : 'Desconocido';
+  }
+
+  private transformProducts(): void {
+    if (this.products.length > 0 && this.categorias.length > 0) {
+      this.transformedProducts = this.products.map(product => {
+        return {
+          ...product,
+          categoryName: this.getCategoryName(product.category)
+        };
+      });
+    }
   }
 
   get totalPages(): number {
-    return Math.ceil(this.products.length / this.itemsPerPage);
+    return Math.ceil(this.transformedProducts.length / this.itemsPerPage);
   }
 
   get displayedProducts(): any[] {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
-    return this.products.slice(startIndex, endIndex);
+    return this.transformedProducts.slice(startIndex, endIndex);
+  }
+
+  setItemsPerPage(num: number): void {
+    this.itemsPerPage = num;
+    this.currentPage = 1;
   }
 
   navigateToPage(page: number): void {
@@ -47,35 +92,13 @@ export class ProductComponent implements OnInit {
     }
   }
 
-  loadProducts(): void {
-    this.productService.getAllProducts().subscribe({
-      next: (data) => {
-        // Asumiendo que 'data' es una lista de todos tus productos
-        this.products = data;
-      },
-      error: (error) => {
-        console.error('Error al obtener productos', error);
-      }
-    });
-  }
-
-
-  setItemsPerPage(num: number): void {
-    this.itemsPerPage = num;
-    this.currentPage = 1; // Restablece a la primera página
-  }
-
   editProduct(product: any): void {
     const modalRef = this.modalService.open(ModalProductComponent);
-    modalRef.componentInstance.product = product; // Pasar el producto al modal
-
-    // Resto de tu lógica...
+    modalRef.componentInstance.product = product;
   }
 
   addProduct(): void {
     const modalRef = this.modalService.open(ModalProductComponent);
-
-    // Puedes suscribirte a eventos del modal si es necesario
     modalRef.result.then((result) => {
       console.log(`Modal cerrado con resultado: ${result}`);
     }, (reason) => {
@@ -89,26 +112,19 @@ export class ProductComponent implements OnInit {
     confirmModal.result.then((result) => {
       if (result === 'confirm') {
         this.productService.deleteProduct(product.id).subscribe(response => {
-          if (response.status === 200) {
-            console.log('Producto eliminado exitosamente');
-            confirmModal.close()
-            window.location.reload()
-          } else {
-            console.error(`Error al eliminar el producto. Código de estado: ${response.status}`);
-          }
+          console.log('Producto eliminado exitosamente');
+          confirmModal.close();
+          window.location.reload();
+          this.loadProducts(); 
         }, error => {
-          if (error.status === 200) {
-            console.log('Producto eliminado exitosamente');
-            confirmModal.close()
-            window.location.reload()
-          } else {
-            console.error(`Error al eliminar el producto. Código de estado: ${error.status}`);
-          }
+          console.error(`Error al eliminar el producto. Código de estado: ${error.status}`);
         });
       }
     });
   }
-  
-  }
-  
 
+  logout(): void {
+    localStorage.removeItem('token');
+    this.router.navigate(['/login']);
+  }
+}

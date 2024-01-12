@@ -30,7 +30,6 @@ export class LoginComponent {
         localStorage.setItem('token', response.token);
         localStorage.setItem('idUser',response.id)
         localStorage.setItem('name',response.name)
-        console.log(response.token);
         this.router.navigate(['/products']);
       },
       error: (error) => {

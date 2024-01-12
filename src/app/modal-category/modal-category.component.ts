@@ -9,7 +9,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class ModalCategoryComponent implements OnInit {
   @Input() category: any | null = null;
-  isEditMode: boolean = false; // Bandera para indicar si estamos en modo de edición
+  isEditMode: boolean = false;
 
   categoryForm!: FormGroup;
 
@@ -50,7 +50,7 @@ this.categoriesService.updateCategory(this.category.id , categoryData).subscribe
     if (createdCategory) {
       console.log('Categoría creada exitosamente', createdCategory);
       this.activeModal.close('Categoría creada exitosamente');
-      window.location.reload(); // Llama a la función para recargar las categorías
+      window.location.reload();
     } else {
       console.error('Error al crear la categoría');
     }
@@ -58,7 +58,7 @@ this.categoriesService.updateCategory(this.category.id , categoryData).subscribe
   (error) => {
     if (error.status == 200) {
       this.activeModal.close('Categoría creada exitosamente');
-      window.location.reload(); // Llama a la función para recargar las categorías
+      window.location.reload();
     } else {
       console.error('Error al crear la categoría', error);
     }
@@ -70,7 +70,7 @@ this.categoriesService.updateCategory(this.category.id , categoryData).subscribe
             if (createdCategory) {
               console.log('Categoría creada exitosamente', createdCategory);
               this.activeModal.close('Categoría creada exitosamente');
-              window.location.reload(); // Llama a la función para recargar las categorías
+              window.location.reload();
             } else {
               console.error('Error al crear la categoría');
             }
@@ -78,7 +78,7 @@ this.categoriesService.updateCategory(this.category.id , categoryData).subscribe
           (error) => {
             if (error.status == 200) {
               this.activeModal.close('Categoría creada exitosamente');
-              window.location.reload(); // Llama a la función para recargar las categorías
+              window.location.reload();
             } else {
               console.error('Error al crear la categoría', error);
             }

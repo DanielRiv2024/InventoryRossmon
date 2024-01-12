@@ -25,7 +25,7 @@ export class ProductService {
       
       'Authorization': `Bearer ${token}`
     });
-  
+  console.log(product)
     return this.http.post<any>('http://localhost:8080/products/create', product, { headers });
   }
 
@@ -51,3 +51,4 @@ export class ProductService {
   }
   
 }
+

@@ -11,12 +11,10 @@ export class ConfirmDeleteModalComponent {
   constructor(public activeModal: NgbActiveModal) {}
 
   confirmDelete(): void {
-    // Confirma la eliminación
     this.activeModal.close('confirm');
   }
 
   cancelDelete(): void {
-    // Cancela la eliminación
     this.activeModal.close('cancel');
   }
 }
