@@ -1,4 +1,9 @@
-<div class="flex flex-1 w-[100%] h-[100vh] flex-col items-center ">
+
+<div class="flex w-[100%] h-[100vh] flex-col items-center ">
+    <div class="w-[100%]  h-[40px] bg-slate-600 flex justify-between items-center text-white font-bold px-6">
+        <p>{{ localStorage.getItem('name') }}</p>
+        <button (click)="logout()">Salir</button>
+    </div>
     <div class="flex w-[80vh] justify-between m-10 items-center">
         <p class="font-bold text-[30px] text-slate-600">
             Productos
@@ -13,8 +18,8 @@
 
     </div>
 
-    <div class="bg-slate-100 p-6 rounded-md">
-        <table>
+    <div class="bg-slate-100 p-6 rounded-md w-[1000px]">
+        <table *ngIf="displayedProducts.length > 0">
             <thead>
                 <tr>
                     <th class="p-3">ID</th>
@@ -61,6 +66,8 @@
                 <button *ngIf="currentPage < totalPages" (click)="navigateToPage(currentPage + 1)">Siguiente</button>
             </div>
         </div>
-
+        <div *ngIf="displayedProducts.length === 0" class="text-center text-gray-600 mt-4">
+            No hay productos disponibles.
+        </div>
     </div>
 </div>

@@ -81,6 +81,7 @@ editCategory(category: any): void {
           if (response.status === 200) {
             console.log('Producto eliminado exitosamente');
             confirmModal.close()
+            window.location.reload()
           } else {
             console.error(`Error al eliminar el producto. Código de estado: ${response.status}`);
           }

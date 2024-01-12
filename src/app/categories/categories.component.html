@@ -11,8 +11,8 @@
     </div>
 
   </div>
-  <div class="bg-slate-100 p-6 rounded-md">
-    <table>
+  <div class="bg-slate-100 p-6 rounded-md w-[700px]">
+    <table *ngIf="displayedCatgories.length > 0">
       <thead>
         <tr>
           <th class="p-3">ID</th>
@@ -39,16 +39,19 @@
     </table>
     <div class="flex gap-3 justify-end text-[10px] font-bold">
       <div>
-          Productos por página
+        Productos por página
       </div>
       <div class="flex gap-3">
-          <button (click)="setItemsPerPage(5)">5</button>
-          <button (click)="setItemsPerPage(10)">10</button>
-          <button (click)="setItemsPerPage(30)">30</button>
+        <button (click)="setItemsPerPage(5)">5</button>
+        <button (click)="setItemsPerPage(10)">10</button>
+        <button (click)="setItemsPerPage(30)">30</button>
       </div>
       <div class="flex justify-between gap-3 text-[10px] font-bold">
-          <button *ngIf="currentPage > 1" (click)="navigateToPage(currentPage - 1)">Anterior</button>
-          <button *ngIf="currentPage < totalPages" (click)="navigateToPage(currentPage + 1)">Siguiente</button>
+        <button *ngIf="currentPage > 1" (click)="navigateToPage(currentPage - 1)">Anterior</button>
+        <button *ngIf="currentPage < totalPages" (click)="navigateToPage(currentPage + 1)">Siguiente</button>
       </div>
+    </div>
+    <div *ngIf="displayedCatgories.length === 0" class="text-center text-gray-600 mt-4">
+      No hay categorias disponibles.
   </div>
   </div>

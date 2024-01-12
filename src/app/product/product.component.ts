@@ -4,6 +4,8 @@ import { Component, OnInit } from '@angular/core';
 import { ProductService } from './ProductService';
 import { ModalProductComponent } from '../modal-product/modal-product.component';
 import { ConfirmDeleteModalComponent } from '../modal-product/ConfirmDeleteModalComponent';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
@@ -12,11 +14,21 @@ export class ProductComponent implements OnInit {
   products: any[] = [];
   currentPage: number = 1;
   itemsPerPage: number = 5;
-
-  constructor(private productService: ProductService, private modalService: NgbModal) { }
+  localStorage = window.localStorage;
+  nameFromLocalStorage: string | null = '';
+  constructor(private productService: ProductService, private modalService: NgbModal, private router: Router) { }
 
   ngOnInit(): void {
     this.loadProducts();
+    this.nameFromLocalStorage = this.localStorage.getItem('name');
+  }
+
+  logout(): void {
+    // Eliminar el token del localStorage
+    window.localStorage.removeItem('token');
+
+    // Redireccionar a la página de inicio de sesión
+    this.router.navigate(['/login']);
   }
 
   get totalPages(): number {
@@ -46,6 +58,7 @@ export class ProductComponent implements OnInit {
       }
     });
   }
+
 
   setItemsPerPage(num: number): void {
     this.itemsPerPage = num;
@@ -79,6 +92,7 @@ export class ProductComponent implements OnInit {
           if (response.status === 200) {
             console.log('Producto eliminado exitosamente');
             confirmModal.close()
+            window.location.reload()
           } else {
             console.error(`Error al eliminar el producto. Código de estado: ${response.status}`);
           }
@@ -86,6 +100,7 @@ export class ProductComponent implements OnInit {
           if (error.status === 200) {
             console.log('Producto eliminado exitosamente');
             confirmModal.close()
+            window.location.reload()
           } else {
             console.error(`Error al eliminar el producto. Código de estado: ${error.status}`);
           }

@@ -50,5 +50,4 @@ export class ProductService {
     return this.http.delete<any>(`http://localhost:8080/products/delete/${productId}`, { headers: headers });
   }
   
-  
 }
